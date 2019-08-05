@@ -39,14 +39,4 @@ public class ResponseCode <T> {
                 ", mag='" + mag + '\'' +
                 '}';
     }
-
-
-    public void getStatus(int i) {
-    }
-
-    public void setStatus(int i) {
-    }
-
-    public void getStatus() {
-    }
 }

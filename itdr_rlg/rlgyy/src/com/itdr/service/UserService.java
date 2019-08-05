@@ -14,13 +14,13 @@ public class UserService {
             pageSize = "10";
         }
         if (pageNum == null || pageNum.equals("")) {
-            pageSize = "1";
+            pageNum = "1";
         }
 
         List<Users> li = ud.selectAll(pageSize, pageNum);
 
         ResponseCode rs = new ResponseCode();
-        rs.getStatus();
+        rs.getStats();
         rs.setData(li);
         return rs;
     }
@@ -32,7 +32,7 @@ public class UserService {
 
         //非空判断 时空直接返回
         if (username == null || username.equals("") || password == null || password.equals("")) {
-            rs.setStatus(1);
+            rs.setStats(1);
             rs.setMag("账户或密码失败");
             return rs;
         }
@@ -43,19 +43,19 @@ public class UserService {
 
         //如果用户不存在
         if (u == null) {
-            rs.setStatus(1);
+            rs.setStats(1);
             rs.setMag("账户或密码失败");
             return rs;
 
         }
         //用户权限
         if (u.getType()!=1) {
-            rs.setStatus(2);
+            rs.setStats(2);
             rs.setMag("没有操作权限");
             return rs;
 
         }
-        rs.setStatus(0);
+        rs.setStats(0);
         rs.setData(u);
         return  rs;
 
@@ -66,7 +66,7 @@ public class UserService {
 
         //非空判断 时空直接返回
         if (uids == null || uids.equals("")) {
-            rs.setStatus(Const.USER_PARAMETER_CODE);
+            rs.setStats(Const.USER_PARAMETER_CODE);
             rs.setMag(Const.USER_PARAMETER_MSG);
             return rs;
         }
@@ -76,7 +76,7 @@ public class UserService {
         try{
             uid =Integer.parseInt(uids);
         }catch (Exception e){
-            rs.setStatus(105);
+            rs.setStats(105);
             rs.setMag("输入非法参数");
         }
 
@@ -86,14 +86,14 @@ public class UserService {
 
         //如果用户不存在
         if (u == null) {
-            rs.setStatus(Const.USER_NO_CODE);
+            rs.setStats(Const.USER_NO_CODE);
             rs.setMag(Const.USER_NO_MSG);
             return rs;
 
         }
         //用户禁用情况
         if (u.getStats()!=0) {
-            rs.setStatus(Const.USER_DISABLE_CODE);
+            rs.setStats(Const.USER_DISABLE_CODE);
             rs.setMag(Const.USER_DISABLE_MSG);
             return rs;
 
@@ -101,10 +101,10 @@ public class UserService {
        
       int row=ud.uodateByUid(uid);
         if(row<=0){
-            rs.setStatus(106);
+            rs.setStats(106);
             rs.setMag(" 用户禁用更新失败");
             return  rs;
-        }rs.setStatus(0);
+        }rs.setStats(0);
         rs.setData(row);
         return  rs;
 
@@ -113,7 +113,7 @@ public class UserService {
     public ResponseCode UserSelect(String uids){
         ResponseCode rs=new ResponseCode();
         if(uids==null||uids.equals("")){
-            rs.setStatus(Const.USER_PARAMETER_CODE);
+            rs.setStats(Const.USER_PARAMETER_CODE);
             rs.setMag(Const.USER_PARAMETER_MSG);
             return  rs;
         }
@@ -122,17 +122,17 @@ public class UserService {
         try{
             uid = Integer.parseInt(uids);
         }catch (Exception e){
-            rs.setStatus(105);
+            rs.setStats(105);
             rs.setMag("输入非法参数");
         }
         //查找是否有这个用户
         Users  u = ud.selectOne(uid);
         //如果用户不存在
         if(u==null){
-            rs.setStatus(Const.USER_NO_CODE);
+            rs.setStats(Const.USER_NO_CODE);
             rs.setMag(Const.USER_NO_MSG);
         }
-        rs.setStatus(0);
+        rs.setStats(0);
         rs.setData(u);
         return rs;
     }
